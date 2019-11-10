@@ -1,0 +1,15 @@
+sudo apt-get install build-essential vim git libncurses5-dev bc nano mc
+cd ~
+mkdir ws
+cd ws/
+wget https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.8.6.tar.xz
+tar xf linux-4.8.6.tar.xz
+cd linux-4.8.6/
+make defconfig
+make menuconfig
+make -j 5
+ll
+touch module.c
+mv module.c my_module.c
+mcedit Makefile
+lsmod
