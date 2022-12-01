@@ -1,6 +1,3 @@
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-function"
-
 #include <linux/module.h>
 #include <linux/fs.h>
 #include <linux/uaccess.h>
@@ -23,19 +20,19 @@ static int mychdev_open(struct inode *inode, struct file *file)
  return 0;
 }
 
-static int mychdev_release(struct inode *inode, struct file *file)
+static int mychrdev_release(struct inode *inode, struct file *file)
 {
  printk(KERN_INFO "Realising device %s: \n\n", MYDEV_NAME);
  return 0;
 }
 
-static ssize_t mychrdev_read(struct file *file, char __user *buf, size_t lbuf, loof_t *ppos)
+static ssize_t mychrdev_read(struct file *file, char __user *buf, size_t lbuf, loff_t *ppos)
 {
  printk(KERN_INFO "Reading device %s: \n\n", MYDEV_NAME);
  return 0;
 }
 
-static ssize_t mychrdev_write(struct file *file, const char __user *buf, size_t lbuf, loof_t *ppos)
+static ssize_t mychrdev_write(struct file *file, const char __user *buf, size_t lbuf, loff_t *ppos)
 {
  printk(KERN_INFO "Reading device %s: \n\n", MYDEV_NAME);
  return 0;
@@ -45,8 +42,8 @@ static const struct file_operations mycdev_fops = {
  .owner = THIS_MODULE,
  .read = mychrdev_read,
  .write = mychrdev_write,
- .release = mychrdev_release
-}
+ .release = mychrdev_release,
+};
 
 static int __init init_chrdev(void)
 {
@@ -74,5 +71,3 @@ module_init(init_chrdev);
 module_exit(cleanup_chrdev);
 
 MODULE_LICENSE("GPL");
-
-#pragma GCC diagnostic pop
