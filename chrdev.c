@@ -22,20 +22,28 @@ static int mychdev_open(struct inode *inode, struct file *file)
 
 static int mychrdev_release(struct inode *inode, struct file *file)
 {
- printk(KERN_INFO "Realising device %s: \n\n", MYDEV_NAME);
+ printk(KERN_INFO "Releasing device %s: \n\n", MYDEV_NAME);
  return 0;
 }
 
 static ssize_t mychrdev_read(struct file *file, char __user *buf, size_t lbuf, loff_t *ppos)
 {
- printk(KERN_INFO "Reading device %s: \n\n", MYDEV_NAME);
- return 0;
+ int nbytes = lbuf - copy_to_user(buf, kbuf + *ppos, lbuf);
+ *ppos += nbytes;
+
+ printk(KERN_INFO "Read device %s: nbytes = %d, ppos = %d \n\n", MYDEV_NAME, nbytes, (int)*ppos);
+
+ return nbytes;
 }
 
 static ssize_t mychrdev_write(struct file *file, const char __user *buf, size_t lbuf, loff_t *ppos)
 {
- printk(KERN_INFO "Reading device %s: \n\n", MYDEV_NAME);
- return 0;
+ int nbytes = lbuf - copy_from_user(kbuf + *ppos, buf, lbuf);
+ *ppos += nbytes;
+
+ printk(KERN_INFO "Write device %s: nbytes = %d, ppos = %d \n\n", MYDEV_NAME, nbytes, (int)*ppos);
+
+ return nbytes;
 }
 
 static const struct file_operations mycdev_fops = {
