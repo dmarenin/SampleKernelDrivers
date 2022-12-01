@@ -82,7 +82,7 @@ static int __init init_chrdev(void)
 {
  printk(KERN_INFO "Hello, loading");
 
- //kbuf = kmalloc(KBUF_SIZE, GFP_KERNEL);
+ //kbuf = kmalloc(KBUF_SIZE, GFP_KERNEL); globalbuf
 
  first = MKDEV(my_major, my_minor);
 
