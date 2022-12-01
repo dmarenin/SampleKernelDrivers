@@ -1,13 +1,13 @@
-obj-m += my_module.o
+CONFIG_MODULE_SIG=n
+obj-m += chrdev.o
 
 all:
-    make -C /lib/modules/$(shell uname -r)/build modules
+	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
 clean:
-    make -C /lib/modules/$(shell uname -r)/build clean
+	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
 load:
-    sudo insmod my_module.ko
-    sudo dmesg -c
+	insmod chrdev.ko
+	dmesg -c
 unload:
-    sudo rmmod my_module.ko
-    sudo dmesg -c
-	
+	rmmod chrdev.ko
+	dmesg -c
